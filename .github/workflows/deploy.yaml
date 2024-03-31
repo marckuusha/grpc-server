@@ -60,8 +60,7 @@ jobs:
           chmod 600 ${{ env.ENV_FILE_PATH }} && \
           echo 'CONFIG_PATH=${{ env.CONFIG_PATH }}' > ${{ env.ENV_FILE_PATH }}"
       - name: Debug info
-        run: |
-          echo $CONFIG_PATH"
+        run:       echo $CONFIG_PATH
       - name: Copy systemd service file
         run: |
           scp -i deploy_key.pem -o StrictHostKeyChecking=no ${{ github.workspace }}/deployment/grpc-server.service ${{ env.HOST }}:/tmp/grpc-server.service
