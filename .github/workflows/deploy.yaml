@@ -13,7 +13,7 @@ jobs:
     env:
       HOST: root@46.161.52.147
       DEPLOY_DIRECTORY: /root/apps/grpc-server
-      CONFIG_PATH: /root/apps/grpc-server/config/prod.yaml
+      CONFIG_PATH_1: /root/apps/grpc-server/config/prod.yaml
       ENV_FILE_PATH: /root/apps/grpc-server/config.env
 
     steps:
@@ -58,9 +58,9 @@ jobs:
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "\
           touch ${{ env.ENV_FILE_PATH }} && \
           chmod 600 ${{ env.ENV_FILE_PATH }} && \
-          echo 'CONFIG_PATH=${{ env.CONFIG_PATH }}' > ${{ env.ENV_FILE_PATH }}"
+          echo 'CONFIG_PATH_1=${{ env.CONFIG_PATH_1 }}' > ${{ env.ENV_FILE_PATH }}"
       - name: Debug info
-        run:       echo $CONFIG_PATH
+        run: echo $CONFIG_PATH
       - name: Copy systemd service file
         run: |
           scp -i deploy_key.pem -o StrictHostKeyChecking=no ${{ github.workspace }}/deployment/grpc-server.service ${{ env.HOST }}:/tmp/grpc-server.service

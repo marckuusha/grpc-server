@@ -25,7 +25,7 @@ type GRPCServer struct {
 }
 
 func MustLoad() *Config {
-	configPath := "/config/prod.yaml" //os.Getenv("CONFIG_PATH")
+	configPath := os.Getenv("CONFIG_PATH_1")
 
 	if configPath == "" {
 		panic("CONFIG_PATH is not set")
