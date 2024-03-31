@@ -40,7 +40,7 @@ func NewApp(log *zap.Logger, cfg *config.Config) *App {
 func (a *App) StartServer() {
 	serv := &http.Server{
 		Addr:         a.cfg.Address,
-		Handler:      a.setupRouter(),
+		Handler:      a.SetupRouter(),
 		ReadTimeout:  a.cfg.HTTPServer.Timeout,
 		WriteTimeout: a.cfg.HTTPServer.Timeout,
 		IdleTimeout:  a.cfg.HTTPServer.IdleTimeout,
@@ -87,7 +87,7 @@ func (a *App) StartServer() {
 	}
 }
 
-func (a *App) setupRouter() *chi.Mux {
+func (a *App) SetupRouter() *chi.Mux {
 	// init router
 	router := chi.NewRouter()
 	// handles

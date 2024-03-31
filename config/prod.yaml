@@ -1,4 +1,4 @@
-env: "local"
+env: "prod"
 http_server:
   address: "0.0.0.0:8084"
   timeout: 4s
