@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=root
 WorkingDirectory=/root/apps/grpc-server
-ExecStart=/root/apps/grpc-server/grpc-server
+ExecStart=/root/apps/grpc-server/grpc-server --config=/root/apps/grpc-server/config/prod.yaml
 Restart=always
 RestartSec=4
 StandardOutput=inherit
