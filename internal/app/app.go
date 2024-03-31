@@ -40,7 +40,7 @@ func NewApp(log *zap.Logger, cfg *config.Config) *App {
 func (a *App) StartServer() {
 	serv := &http.Server{
 		Addr:         a.cfg.Address,
-		Handler:      a.SetupRouter(),
+		Handler:      a.setupRouter(),
 		ReadTimeout:  a.cfg.HTTPServer.Timeout,
 		WriteTimeout: a.cfg.HTTPServer.Timeout,
 		IdleTimeout:  a.cfg.HTTPServer.IdleTimeout,
@@ -53,10 +53,10 @@ func (a *App) StartServer() {
 	}()
 
 	grpcErr := make(chan error, 1)
-	// go func() {
-	// 	a.log.Sugar().Infof("grpc сервер запущен на порту: %d", a.cfg.GRPCServer.Port)
-	// 	grpcErr <- a.GRPC.Run()
-	// }()
+	go func() {
+		a.log.Sugar().Infof("grpc сервер запущен на порту: %d", a.cfg.GRPCServer.Port)
+		grpcErr <- a.GRPC.Run()
+	}()
 
 	const timeout = time.Second * 15
 	stop := make(chan os.Signal, 1)
@@ -64,7 +64,7 @@ func (a *App) StartServer() {
 
 	select {
 	case <-stop:
-		// a.GRPC.Stop()
+		a.GRPC.Stop()
 
 		serv.SetKeepAlivesEnabled(false)
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
@@ -74,7 +74,7 @@ func (a *App) StartServer() {
 			return
 		}
 	case <-listErr:
-		// a.GRPC.Stop()
+		a.GRPC.Stop()
 		return
 	case <-grpcErr:
 		serv.SetKeepAlivesEnabled(false)
@@ -87,7 +87,7 @@ func (a *App) StartServer() {
 	}
 }
 
-func (a *App) SetupRouter() *chi.Mux {
+func (a *App) setupRouter() *chi.Mux {
 	// init router
 	router := chi.NewRouter()
 	// handles
