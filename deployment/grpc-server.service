@@ -9,6 +9,7 @@ ExecStart=/root/apps/grpc-server/grpc-server
 Restart=always
 RestartSec=4
 StandardOutput=inherit
+EnvironmentFile=/root/apps/grpc-server/config.env
 
 [Install]
 WantedBy=multi-user.target
