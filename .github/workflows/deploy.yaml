@@ -52,13 +52,6 @@ jobs:
           echo "Listing deployment folder contents:"
           echo ${{ github.workspace }}
           ls -la ${{ github.workspace }}/deployment
-      - name: Create environment file on server
-        run: |
-          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "\
-          touch ${{ env.ENV_FILE_PATH }} && \
-          chmod 600 ${{ env.ENV_FILE_PATH }} && \
-          echo 'CONFIG_PATH=${{ env.CONFIG_PATH }}' > ${{ env.ENV_FILE_PATH }} && \
-          echo 'HTTP_SERVER_PASSWORD=${{ secrets.AUTH_PASS }}' >> ${{ env.ENV_FILE_PATH }}"
       - name: Copy systemd service file
         run: |
           scp -i deploy_key.pem -o StrictHostKeyChecking=no ${{ github.workspace }}/deployment/grpc-server.service ${{ env.HOST }}:/tmp/grpc-server.service
